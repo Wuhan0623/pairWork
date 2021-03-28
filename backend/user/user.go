@@ -10,16 +10,6 @@ import (
 )
 
 
-type AnalyzedThesis struct {
-	ID int
-	Source string
-	Year int
-	Title string
-	Author string
-	Keyword string
-	Abstract string
-}
-
 // UserLogin 用户登录
 func UserLogin(c *gin.Context){
 	username := c.Query("username")
@@ -38,6 +28,7 @@ func UserLogin(c *gin.Context){
 	}
 
 }
+
 
 // UserRegister 用户注册
 func UserRegister(c *gin.Context) {

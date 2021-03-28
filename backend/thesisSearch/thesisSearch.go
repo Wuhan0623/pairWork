@@ -8,13 +8,13 @@ import (
 )
 
 type AnalyzedThesis struct {
-	ID int
-	Source string
-	Year int
-	Title string
-	Author string
-	Keyword string
-	Abstract string
+	ID int			`json:"id"`
+	Source string	`json:"source"`
+	Year int		`json:"year"`
+	Title string	`json:"title"`
+	Author string	`json:"author"`
+	Keyword string	`json:"keyword"`
+	Abstract string	`json:"abstract"`
 }
 
 // GetThesisList 查找相应文章
@@ -23,7 +23,7 @@ func GetThesisList(c *gin.Context) {
 	year := c.Query("year")
 	keyword := c.Query("keyword")
 
-	keyword = strings.ReplaceAll(keyword, "[^A-Za-z]", "%")  //problem:正则表达式
+	keyword = strings.ReplaceAll(keyword, " ", "%")  //problem:正则表达式无法处理，交前端限制？
 	keyword = "%" + keyword + "%"
 
 	var selectStr string = "select * from analyzed_thesis where "
@@ -57,9 +57,19 @@ func GetThesisList(c *gin.Context) {
 	var Author string
 	var Keyword string
 	var Abstract string
+	var thesisArr []AnalyzedThesis
 	for rows.Next() {
+		temp := AnalyzedThesis{}
 		_ = rows.Scan(&ID, &Source, &Year, &Title, &Author, &Keyword, &Abstract)
+		temp.ID = ID
+		temp.Source = Source
+		temp.Year = Year
+		temp.Title = Title
+		temp.Author = Author
+		temp.Keyword = Keyword
+		temp.Abstract = Abstract
+		thesisArr = append(thesisArr,temp)
 	}
 
-	c.JSON(http.StatusOK, gin.H{"Title":Title})
+	c.JSON(http.StatusOK, thesisArr)
 }

@@ -17,7 +17,8 @@ type AnalyzedThesis struct {
 	Abstract string	`json:"abstract"`
 }
 
-// GetThesisList 查找相应文章
+
+// GetThesisList 模糊搜索、查找相应文章
 func GetThesisList(c *gin.Context) {
 	source := c.Query("source")
 	year := c.Query("year")
@@ -73,3 +74,5 @@ func GetThesisList(c *gin.Context) {
 
 	c.JSON(http.StatusOK, thesisArr)
 }
+
+
